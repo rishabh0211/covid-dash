@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from "react-router-dom";
-import Home from '../components/home';
+import Home from '../components/Home';
 
 const Dashboard = lazy(() => import('../components/Dashboard'));
 
