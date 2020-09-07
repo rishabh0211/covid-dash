@@ -17,16 +17,16 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
-console.log(process.env.NODE_ENV);
+console.log(process.env);
 
 module.exports = () => {
   return {
     mode: "production",
     entry: "./src/app.js",
-    watch: process.env.NODE_ENV === "development",
-    watchOptions: {
-      aggregateTimeout: 1000
-    },
+    // watch: process.env.NODE_ENV === "development",
+    // watchOptions: {
+    //   aggregateTimeout: 1000
+    // },
     output: {
       path: path.join(__dirname, "public", "dist"),
       filename: "bundle.[contentHash].js",
