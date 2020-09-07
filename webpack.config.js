@@ -17,8 +17,6 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
-console.log(process.env);
-
 module.exports = () => {
   return {
     mode: "production",
