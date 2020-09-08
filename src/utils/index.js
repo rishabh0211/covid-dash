@@ -9,6 +9,9 @@ export const isEmailValid = (email) => {
 };
 
 export const checkPassworkError = (password, confirmPassword) => {
+  if(password.length < 6) {
+    return "Password should be atleast 6 characters";
+  }
   if (!confirmPassword) return '';
   if (password !== confirmPassword) {
     return "Passwords don't match!";

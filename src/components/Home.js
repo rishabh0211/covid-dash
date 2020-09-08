@@ -6,15 +6,16 @@ import { connect } from "react-redux";
 import StyledHome from './styled/StyledHome';
 import Navbar from './Navbar';
 import { isEmailValid, checkPassworkError } from '../utils';
-import { loginUser } from '../actions/actions';
+import { loginUser, registerUser } from '../actions/actions';
 
-const Home = ({ data, isAuthenticated, user, loginUser }) => {
+const Home = ({ data, isAuthenticated, user, loginUser, registerUser }) => {
   const history = useHistory();
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -58,12 +59,16 @@ const Home = ({ data, isAuthenticated, user, loginUser }) => {
     if (!verifyInputs()) {
       return;
     }
+    setLoading(true);
     loginUser({ email, password });
   };
 
   const handleRegisterSubmit = e => {
     e.preventDefault();
-
+    if (!verifyInputs()) {
+      return;
+    }
+    registerUser({ email, password });
   };
 
   return (
@@ -101,7 +106,7 @@ const Home = ({ data, isAuthenticated, user, loginUser }) => {
               <label className="form-label" htmlFor="password">Password</label>
             </div>
             {error && <p className="error-msg">{error}</p>}
-            <button className="submit-btn">Submit</button>
+            <button className="submit-btn" disabled={loading}>Submit</button>
           </form>
           <form className="form" autoComplete="off" hidden={showLoginForm} onSubmit={handleRegisterSubmit} >
             <h1 className="header">Register</h1>
@@ -118,7 +123,7 @@ const Home = ({ data, isAuthenticated, user, loginUser }) => {
             </div>
             <div className="form-group">
               <input
-                type="text"
+                type="password"
                 name="password"
                 id="register-password"
                 className="form-control"
@@ -129,7 +134,7 @@ const Home = ({ data, isAuthenticated, user, loginUser }) => {
             </div>
             <div className="form-group">
               <input
-                type="text"
+                type="password"
                 name="confirm-password"
                 id="confirm-password"
                 className="form-control"
@@ -139,7 +144,7 @@ const Home = ({ data, isAuthenticated, user, loginUser }) => {
               <label className="form-label" htmlFor="confirm-password">Confirm password</label>
             </div>
             {error && <p className="error-msg">{error}</p>}
-            <button className="submit-btn">Register</button>
+            <button className="submit-btn" disabled={loading}>Register</button>
           </form>
         </div>
       </section>
@@ -148,12 +153,13 @@ const Home = ({ data, isAuthenticated, user, loginUser }) => {
 }
 
 const mapStateToProps = (state) => {
-  return {...state}
+  return { ...state }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user) => dispatch(loginUser(user))
+    loginUser: (user) => dispatch(loginUser(user)),
+    registerUser: (user) => dispatch(registerUser(user))
   }
 }
 
