@@ -68,6 +68,7 @@ const Home = ({ data, isAuthenticated, user, loginUser, registerUser }) => {
     if (!verifyInputs()) {
       return;
     }
+    setLoading(true);    
     registerUser({ email, password });
   };
 

@@ -13,7 +13,9 @@ export default styled.div `
   max-height: 60rem;
   overflow: auto;
   grid-gap: .4rem;
-  margin-left: 2rem;
+  ${media.desktop`
+    max-height: inherit;
+  `}
 
   .row {
     display: contents;

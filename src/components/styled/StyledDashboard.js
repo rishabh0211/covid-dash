@@ -60,11 +60,23 @@ export default styled.main`
   .map-table-container {
     display: flex;
     margin-top: 5rem;
+    ${media.desktop`
+      flex-direction: column;
+      align-items: center;
+    `}
   }
 
   .map-container {
     margin-right: 1rem;
     flex-shrink: 0;
+  }
+
+  .table-container {
+    margin-left: 2rem;
+    ${media.desktop`
+      margin-top: 2rem;
+      margin-left: 0;
+    `}
   }
 
   .middle-section {
