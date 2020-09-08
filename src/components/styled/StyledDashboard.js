@@ -69,6 +69,9 @@ export default styled.main`
   .map-container {
     margin-right: 1rem;
     flex-shrink: 0;
+    ${media.desktop`
+      margin-right: 0;
+    `}
   }
 
   .table-container {

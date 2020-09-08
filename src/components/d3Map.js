@@ -7,13 +7,13 @@ import { json } from "d3-fetch";
 import * as topojson from "topojson";
 import { geoIdentity, geoPath } from 'd3-geo';
 import { scaleSequential } from "d3-scale";
-import { STATE_CODES, ACTIVE_TABS } from "../constants/constants";
+import { STATE_CODES, ACTIVE_TABS, STATE_NAMES } from "../constants/constants";
 
 import { theme } from "../styles";
 import { hex2rgba } from "../utils";
 const { colors } = theme;
 
-const MARGIN = { TOP: 100, BOTTOM: 50, LEFT: 50, RIGHT: 10 };
+const MARGIN = { TOP: 100, BOTTOM: 50, LEFT: 20, RIGHT: 10 };
 const WIDTH = 500 - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = 600 - MARGIN.TOP - MARGIN.BOTTOM;
 
@@ -42,6 +42,9 @@ export default class D3Map {
     vis.colorScale = vis.getMapScale();
     vis.transition = transition().duration(500);
 
+    vis.infoGroup = vis.svg
+      .append();
+
     json('/projected_maps/india.json').then(geoData => {
       vis.mesh = topojson.mesh(geoData, geoData.objects.states);
       vis.features = vis.getFeatures(geoData);
@@ -49,11 +52,15 @@ export default class D3Map {
         .data(vis.features);
       vis.paths.enter()
         .append("path")
-        .attr("stroke", "#fff")
+        .attr("stroke", "#fff0")
         .attr("fill", d => vis.getFillColor(d))
         .attr("d", vis.path)
-        .attr('stroke-width', 1.8)
+        .attr('stroke-width', 2)
         .attr('stroke-opacity', 0)
+        .attr('pointer-events', 'all')
+        .on("mouseenter", (e, d) => {
+          vis.setHighlightedRegion(d.properties.st_nm);
+        })
         .append("title")
         .text(d => d.properties.st_nm);
 
@@ -74,6 +81,16 @@ export default class D3Map {
       .attr("class", "bar-label")
       .style("color", this.getLabelColor())
       .text(this.activeTab.toUpperCase());
+  }
+
+  setHighlightedRegion(stateName) {
+    const vis = this;
+    vis.paths.enter()
+      .append("path")
+      .each(function (d) {
+        const highlighted = stateName === d.properties.st_nm;
+        select(this).attr('stroke-opacity', highlighted ? 1 : 0);
+      });
   }
 
   getStrokeColor() {

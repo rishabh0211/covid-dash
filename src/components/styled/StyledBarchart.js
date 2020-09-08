@@ -10,6 +10,7 @@ export default styled.div`
     border-radius: 1rem;
     box-shadow: inset 0 .1rem 1rem ${hex2rgba(colors.black, 0.4)};
     margin: 2rem 2rem 0 0;
+    ${media.desktop`margin-right: 0;`}
   }
   .bar-label {
     font-weight: 700;
