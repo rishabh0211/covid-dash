@@ -103,8 +103,9 @@ export default styled.main`
       font-size: ${fontSizes.md};
       font-weight: 500;
 
-      &:hover {
-
+      &:disabled {
+        background: ${hex2rgba(colors.darkBlue, 0.4)};
+        pointer-events: none;
       }
     }
 
